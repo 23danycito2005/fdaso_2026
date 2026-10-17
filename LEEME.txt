@@ -1,10 +1,12 @@
-MAQUETA PITOCUNA — LPS + LBMS
+PITOCUNA — DEMO INTEGRADA LPS + LBMS
 
-1. Extrae todos los archivos en una misma carpeta.
-2. Abre index.html en tu navegador.
-3. Usa Explorar demo para ver las pantallas de aplicación.
-4. En Avance de obra, alterna Esquema de obra y Tiempo–ubicación; mueve el corte para recorrer el ejemplo.
+PROPUESTA PRELIMINAR, SUJETA A MODIFICACIONES Y VALIDACIÓN.
 
-No necesita instalación ni conexión a internet.
-Son pantallas de diseño con datos ficticios. No guardan registros de obra ni implementan sincronización.
-La zona de UBS está reservada para el diseño con los datos del proyecto.
+Abre index.html. Todas las secciones están en una sola aplicación:
+Inicio, Restricciones, Campo y Avance de obra.
+El dibujo LBMS se vincula con la ficha de restricción R-001.
+
+No requiere instalación ni internet para la demo local.
+Son datos ficticios: aún no guarda registros reales ni sincroniza con un servidor.
+
+Para publicarla en GitHub Pages, sigue los pasos del README.md.

@@ -1,5 +1,7 @@
 # Propuesta inicial de aplicación para la tesis
 
+> **Propuesta preliminar, sujeta a modificaciones y validación.** El diseño, las funciones y los criterios de cálculo podrán ajustarse durante el desarrollo de la tesis.
+
 Fuente: **BORRADOR TESIS (2).pdf**, aportado por el usuario. Este documento propone un diseño; los ejemplos de la maqueta son ficticios. No acredita resultados de obra ni una aplicación implementada.
 
 ## Revisión a partir de la referencia ConferSafe
@@ -14,6 +16,14 @@ El usuario aportó `confi-confersafe.zip` como referencia visual y pidió un ini
 - **Escenario:** excavación en J1–J7; tubería registrada en T-01 J3–J6, espera J6–J10, T-02 J10–J12 y T-03 J12–J15. Antes del corte se muestra el registro del escenario; después, el pronóstico ilustrativo. La restricción DEMO-R1 tiene fecha necesaria J6 y liberación prevista/registrada J10. Es un escenario separado de las cuatro fichas de la primera propuesta.
 
 La portada presenta el producto y el proceso; la demo sirve para revisar las pantallas. La maquetación es local y no envía información. Persistencia, edición, usuarios, evidencia real, cálculos con datos de obra y sincronización siguen pendientes de implementación. El esquema no equivale a un plano ni a un modelo BIM; los estados ilustrativos no calculan un porcentaje global de avance ni acreditan conformidad técnica.
+
+## Aplicación integrada para acceso web
+
+La petición posterior del usuario prioriza abrir una aplicación unificada desde un enlace. `index.html` pasa a ser el punto de entrada de la demo con cuatro secciones. El esquema LBMS se integra en el mismo documento mediante un componente web, sin iframes. Las rutas antiguas redirigen al punto de entrada. La portada explicativa se conserva en `presentacion.html`.
+
+El tramo T-02 se relaciona ahora con la ficha R-001 del panel: fecha necesaria J6, estimación J10 y holgura −4 jornadas. La simulación permite recorrer distintos cortes; el panel conserva el corte de prueba J7. La evolución simulada no modifica los registros de prueba ni constituye captura de datos reales.
+
+La rama contiene `.nojekyll` y está preparada para servir la raíz con GitHub Pages. La activación y la publicación no están confirmadas: la red del entorno impide consultar la API de GitHub Pages y el dominio del sitio. El README documenta cómo activar la publicación por rama.
 
 ## Propósito
 
