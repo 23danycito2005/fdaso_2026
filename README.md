@@ -6,7 +6,7 @@ Aplicación web para relacionar cronograma, ubicaciones, metrados y rendimientos
 
 ## Abrir y publicar
 
-La entrada es `index.html`. La rama `maqueta-pitocuna` puede servirse con GitHub Pages desde **/ (root)**; `.nojekyll` evita procesamiento adicional. Cuando Pages esté activado, el sitio esperado es https://23danycito2005.github.io/fdaso_2026/ . La comprobación externa depende del acceso de red del entorno; un push no demuestra por sí solo que el despliegue esté disponible.
+La entrada es `index.html`. GitHub Pages está configurado para publicar la rama `maqueta-pitocuna` desde **/docs**. `npm run build` copia el sitio completo a esa carpeta e incluye `.nojekyll`. Las fuentes se editan en la raíz; no edites las copias de `docs/` manualmente. Cuando Pages esté activado, el sitio esperado es https://23danycito2005.github.io/fdaso_2026/ . La comprobación externa depende del acceso de red del entorno; un push no demuestra por sí solo que el despliegue esté disponible.
 
 Para desarrollar o probar localmente, usa un servidor HTTP; los módulos JavaScript no se ejecutan abriendo el archivo con `file://`:
 
@@ -40,8 +40,11 @@ El pronóstico usa el rendimiento observado solo cuando hay cobertura diaria com
 ## Desarrollo y comprobaciones
 
 ```sh
+npm run build
 npm test
+# Solo si cambias el lector Excel:
 npm run build:excel
+npm run build
 # Con npm run dev activo y Playwright Python/Chromium disponibles:
 python3 tests/browser_smoke.py
 ```
@@ -52,4 +55,8 @@ python3 tests/browser_smoke.py
 - `scripts/excel-entry.js`: entrada para empaquetar el lector; `vendor/` contiene su artefacto y licencia.
 - `tests/`: casos de reglas y recorrido funcional de navegador. Sus salidas se excluyen de Git.
 
-Validación: 15 pruebas de reglas, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Los escenarios utilizados son ficticios.
+Validación: 15 pruebas de reglas y una comprobación del sitio generado para Pages, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Los escenarios utilizados son ficticios.
+
+## Corrección de publicación
+
+Los intentos de Pages fallaban porque buscaban `/github/workspace/docs`, una carpeta inexistente. El sitio generado en `docs/` permite conservar la configuración seleccionada por el usuario. Antes de cada push de cambios de interfaz ejecuta `npm run build` y `npm test`; la prueba de despliegue detecta archivos ausentes o copias desactualizadas.

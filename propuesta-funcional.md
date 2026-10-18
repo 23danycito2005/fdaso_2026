@@ -47,3 +47,7 @@ Implementado: entradas editables, vista previa de importación, Q/R con calendar
 Pendiente: comparación formal de soportes y matriz de decisión de la tesis, planificación pull de fases, autorización real de datos y roles, servidor y cuentas, adjuntos alojados, sincronización y resolución de conflictos, calendarios/relaciones complejas de MS Project, cartografía o BIM y evaluación con expertos. Las confirmaciones del prototipo local no autentican atribuciones profesionales. No se atribuye una reducción causal del plazo contractual.
 
 Referencias al documento aportado: §§1.6 y 3.1–3.3, ecuaciones (3.1)–(3.8), §4.3 y tabla III. Los apartados de especificaciones y matriz del borrador estaban pendientes; esta implementación es un insumo sujeto a revisión para desarrollarlos.
+
+## Publicación estática
+
+Pages utiliza la rama `maqueta-pitocuna` y la carpeta `/docs`. `npm run build` genera allí los archivos de ejecución con rutas relativas y `.nojekyll`; la prueba de despliegue comprueba que coincidan con las fuentes de la raíz. Esto corrige la ausencia de la carpeta que impedía los primeros despliegues. La aplicación conserva su arquitectura local y no requiere un servidor de aplicación para alojarse en Pages.

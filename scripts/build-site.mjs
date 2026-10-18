@@ -1,0 +1,20 @@
+import {mkdir,copyFile} from 'node:fs/promises';
+import {fileURLToPath,pathToFileURL} from 'node:url';
+import {resolve,dirname} from 'node:path';
+
+export const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
+// Pages está configurado en esta rama para servir /docs. Estos archivos son
+// salidas reproducibles; las fuentes siguen en la raíz del repositorio.
+export const runtimeFiles=[
+ '.nojekyll','index.html','app.css','app.js','engine.js','importers.js',
+ 'sw.js','icon.svg','manifest.webmanifest','propuestas.html','avance-obra.html',
+ 'presentacion.html','aplicacion-unificada.png','propuesta-funcional.md',
+ 'vendor/excel-reader.js','vendor/read-excel-file-LICENSE.txt',
+ 'ejemplos/datos-ejemplo.xlsx','ejemplos/cronograma-ejemplo.csv',
+ 'ejemplos/metrados-ejemplo.csv','ejemplos/cronograma-ejemplo.xml'
+];
+export async function buildSite(){
+ for(const name of runtimeFiles){const to=resolve(root,'docs',name);await mkdir(dirname(to),{recursive:true});await copyFile(resolve(root,name),to);}
+ console.log(`Sitio generado en docs/: ${runtimeFiles.length} archivos. Fuente de Pages: maqueta-pitocuna /docs.`);
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)await buildSite();

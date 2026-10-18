@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-site.mjs",
     "test": "node --test tests/*.test.mjs",
     "build:excel": "esbuild scripts/excel-entry.js --bundle --minify --format=esm --platform=browser --legal-comments=eof --outfile=vendor/excel-reader.js",
     "dev": "python3 -m http.server 8766 --bind 127.0.0.1"
