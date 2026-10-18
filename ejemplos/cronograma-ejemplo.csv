@@ -1,0 +1,3 @@
+﻿id;codigo_partida;actividad;ubicacion;componente;grupo_flujo;orden_ubicacion;inicio;fin;predecesoras;cuadrilla
+EX-01;EXC;Excavación de zanja;T-01;Red de agua;Red principal;1;2026-05-04;2026-05-08;;Excavación
+TU-01;TUB;Instalación de tubería;T-01;Red de agua;Red principal;1;2026-05-11;2026-05-14;EX-01;Tubería

@@ -1,38 +1,55 @@
-# Pitocuna · Aplicación integrada LPS + LBMS
+# Pitocuna · Producción LPS + LBMS
 
-> **Propuesta preliminar, sujeta a modificaciones y validación.** El diseño, las funciones y los criterios de cálculo podrán ajustarse durante el desarrollo de la tesis.
+> **Propuesta preliminar, sujeta a modificaciones y validación.** Prototipo de investigación; no acredita resultados de obra ni sustituye autorizaciones técnicas.
 
-Demo interactiva para gestión de restricciones y avance por ubicación en saneamiento rural.
+Aplicación web para relacionar cronograma, ubicaciones, metrados y rendimientos con Lookahead, liberación de restricciones, compromisos semanales y avance LBMS. Se preparó a partir del borrador de tesis de Bajo Pitocuna aportado por el usuario. Los archivos originales de referencia no se publican.
 
-## Abrir la aplicación
+## Abrir y publicar
 
-**`index.html` es la aplicación completa.** Incluye Inicio, Restricciones, Campo y Avance de obra en una sola navegación. El dibujo del tramo T-02 abre la ficha de restricción R-001. No necesita instalaciones ni servicios externos para consultar la demo.
+La entrada es `index.html`. La rama `maqueta-pitocuna` puede servirse con GitHub Pages desde **/ (root)**; `.nojekyll` evita procesamiento adicional. Cuando Pages esté activado, el sitio esperado es https://23danycito2005.github.io/fdaso_2026/ . La comprobación externa depende del acceso de red del entorno; un push no demuestra por sí solo que el despliegue esté disponible.
 
-`presentacion.html` explica el proceso y enlaza con la aplicación. Los enlaces antiguos `propuestas.html` y `avance-obra.html` redirigen a la aplicación integrada.
+Para desarrollar o probar localmente, usa un servidor HTTP; los módulos JavaScript no se ejecutan abriendo el archivo con `file://`:
 
-## Publicar con GitHub Pages
+```sh
+npm ci --ignore-scripts
+npm run dev
+```
 
-La aplicación está preparada para publicación estática desde la raíz de la rama `maqueta-pitocuna`, con `.nojekyll` y navegación mediante fragmentos de URL.
+El servidor usa el puerto 8766. Node 24 se utilizó para la validación; Python 3 sirve los archivos locales. No hay base de datos remota ni secretos requeridos.
 
-1. Abre [Settings → Pages](https://github.com/23danycito2005/fdaso_2026/settings/pages).
-2. En **Build and deployment → Source**, elige **Deploy from a branch**.
-3. Selecciona **maqueta-pitocuna**, carpeta **/ (root)** y pulsa **Save**.
-4. Espera a que GitHub confirme el despliegue y muestre **Visit site**.
+## Recorrido funcional
 
-La dirección esperada tras una publicación exitosa es `https://23danycito2005.github.io/fdaso_2026/`. No se ha confirmado la activación ni la disponibilidad de esa dirección desde el entorno de trabajo: su red bloquea `api.github.com` y `23danycito2005.github.io`. Subir los archivos al repositorio no habilita Pages por sí solo.
+1. **Datos de obra:** importar cronograma `.xlsx`, `.csv` o MS Project `.xml`; `.mpp` debe exportarse a XML. Revisar hoja, fila de encabezado y asignación de columnas antes de confirmar. Las tareas resumen XML se excluyen; los hitos se conservan. Los vínculos distintos de fin–inicio sin desfase se señalan para revisión, y el calendario XML requiere confirmación manual.
+2. **Ubicaciones y metrados:** relacionar por **código de partida + ubicación**. Diferenciar redes, reservorio y UBS; asignar grupo de flujo comparable, orden y cuadrilla. Registrar cantidad, unidad, rendimiento por jornada y su fuente. Q/R produce la duración; las unidades incompatibles o datos faltantes generan «no calculable».
+3. **Lookahead:** ventana de 3, 4, 6 u 8 semanas con duraciones calculadas y trabajo atrasado como arrastre. Se conservan las fechas de referencia; el plan operativo considera Q/R, precedencias y secuencia de la misma cuadrilla.
+4. **Preparación y restricciones:** vincular condiciones a una o varias actividades, responsable, fechas necesaria/estimada, evidencia y revisión. Una estimación no libera nada. La revisión de recursos, seguridad, calidad y frente debe confirmarse antes del compromiso; cambios relevantes la invalidan.
+5. **Plan semanal:** definir cantidad comprometida y criterio de término; incorporar únicamente actividades preparadas y coincidentes con la ventana semanal. Congelar antes del inicio y de los registros de resultados. El congelamiento conserva miembros, ventanas, calendario y fechas necesarias; no permite añadir o retirar miembros posteriormente.
+6. **Avance:** registrar cantidades diarias incrementales, evidencia y responsable dentro del corte observado. La entrega completa requiere confirmación adicional y el metrado íntegro. Los hitos tienen confirmación documentada sin cantidad. Las interrupciones se registran como intervalos de días completos; los coincidentes se consolidan.
+7. **Indicadores:** PPC desde el cierre del alcance/criterio; PRL con fecha necesaria más temprana de vínculos congelados, sin duplicar restricciones compartidas; continuidad ponderada por jornadas actividad–ubicación, dentro del tiempo programado observado. Un denominador nulo se muestra como «no aplica». El reporte CSV y el historial permiten revisar el origen.
 
-Si GitHub indica que Pages no está disponible, revisa la visibilidad del repositorio y las condiciones del plan antes de cambiar esas opciones.
+En `ejemplos/` hay un Excel con hojas **Cronograma** y **Metrados**, dos CSV y un XML de prueba. Las plantillas CSV también se descargan desde la aplicación. Al importar sobre la demostración se inicia un proyecto propio, sin mezclar ejemplos; el proyecto anterior queda recuperable en **Restaurar respaldo → Recuperar proyecto anterior**.
 
-## Uso local
+## Datos y trabajo sin conexión
 
-Descarga con **Code → Download ZIP**, extrae y abre `index.html`. También se incluye `pitocuna-completo.zip` con la aplicación y la documentación. El archivo principal contiene las vistas y gráficos integrados, sin iframes ni dependencias de red.
+El proyecto se guarda en `localStorage` de ese navegador. Tras la primera carga HTTP/HTTPS, el service worker permite reabrir la aplicación y consultar/calcular sin conexión, incluyendo el lector Excel empaquetado localmente. Exporta el respaldo JSON para traslado o recuperación. Se puede restaurar desde un archivo validado y exportar un reporte CSV.
 
-## Validación
+No hay autenticación de roles, documentos adjuntos alojados, servidor compartido, sincronización automática ni resolución de conflictos entre dispositivos. Las revisiones son declaraciones registradas con un responsable, no firmas autenticadas. La operación local no garantiza conservación si se borra el almacenamiento del navegador; los respaldos son necesarios.
 
-Verificado en Chromium a 1440 px y 390 px: navegación de las cuatro secciones, búsqueda, detalle de restricciones, filtro de campo, cortes de avance J7/J9/J15, vistas de esquema y tiempo–ubicación, vínculo T-02 → R-001, compatibilidad de enlaces anteriores y ausencia de errores de JavaScript. Esta validación es local y no demuestra que GitHub Pages esté publicado.
+El pronóstico usa el rendimiento observado solo cuando hay cobertura diaria completa desde el primer registro hasta el corte, descontando interrupciones. En caso contrario usa el rendimiento planificado y lo indica. No estima un impacto contractual ni realiza optimización automática. La planificación pull de fases y la integración con sistemas institucionales quedan para una etapa posterior.
 
-## Alcance
+## Desarrollo y comprobaciones
 
-Es una demo con datos ficticios. Permite consultar los registros de prueba y recorrer el avance simulado. Registro y edición de información real, usuarios, evidencias y sincronización con servidor siguen pendientes de implementación. Las UBS tienen una zona reservada para su futuro diseño. El gráfico no acredita resultados de obra ni conformidad técnica.
+```sh
+npm test
+npm run build:excel
+# Con npm run dev activo y Playwright Python/Chromium disponibles:
+python3 tests/browser_smoke.py
+```
 
-Los documentos originales de referencia aportados por el usuario no se incluyen en este repositorio.
+- `engine.js`: calendario, Q/R, precedencias, alertas, preparación, compromisos, congelamiento, ejecución e indicadores.
+- `importers.js`: validación de tablas CSV/Excel y lectura de XML.
+- `app.js` / `app.css`: interfaz y persistencia local.
+- `scripts/excel-entry.js`: entrada para empaquetar el lector; `vendor/` contiene su artefacto y licencia.
+- `tests/`: casos de reglas y recorrido funcional de navegador. Sus salidas se excluyen de Git.
+
+Validación: 15 pruebas de reglas, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Los escenarios utilizados son ficticios.

@@ -1,12 +1,15 @@
-PITOCUNA — DEMO INTEGRADA LPS + LBMS
-
+PITOCUNA — PROTOTIPO DE PRODUCCIÓN LPS + LBMS
 PROPUESTA PRELIMINAR, SUJETA A MODIFICACIONES Y VALIDACIÓN.
 
-Abre index.html. Todas las secciones están en una sola aplicación:
-Inicio, Restricciones, Campo y Avance de obra.
-El dibujo LBMS se vincula con la ficha de restricción R-001.
+Entrada: index.html servido por GitHub Pages o un servidor HTTP.
+Para desarrollo local: npm ci --ignore-scripts; npm run dev.
+No abrir mediante file://: la aplicación utiliza módulos JavaScript.
 
-No requiere instalación ni internet para la demo local.
-Son datos ficticios: aún no guarda registros reales ni sincroniza con un servidor.
+Recorrido: Datos de obra → Lookahead → Restricciones → Plan semanal → Avance → Indicadores.
+En Datos de obra se importan cronograma XML/Excel/CSV y metrados Excel/CSV.
+En ejemplos/ hay un Excel con dos hojas, CSV y XML ficticios para comprobar la carga.
 
-Para publicarla en GitHub Pages, sigue los pasos del README.md.
+El proyecto se guarda en este navegador; exporta respaldos JSON.
+Puede reabrirse sin conexión tras una primera carga completa.
+No tiene cuentas compartidas, servidor de registros ni sincronización automática.
+Lee README.md y propuesta-funcional.md para conocer reglas y límites.
