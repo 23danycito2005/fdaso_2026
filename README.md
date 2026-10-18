@@ -2,11 +2,11 @@
 
 > **Propuesta preliminar, sujeta a modificaciones y validación.** Prototipo de investigación; no acredita resultados de obra ni sustituye autorizaciones técnicas.
 
-Aplicación web para relacionar cronograma, ubicaciones, metrados y rendimientos con Lookahead, liberación de restricciones, compromisos semanales y avance LBMS. Se preparó a partir del borrador de tesis de Bajo Pitocuna aportado por el usuario. Los archivos originales de referencia no se publican.
+Aplicación web para relacionar cronograma, ubicaciones, metrados y rendimientos con Lookahead, liberación de restricciones, compromisos semanales y avance LBMS. Se preparó a partir del borrador de tesis de Bajo Pitocuna aportado por el usuario. El usuario autorizó publicar los datos y planos aportados. El expediente público conserva sus fuentes y distingue lo pendiente de validar.
 
 ## Abrir y publicar
 
-La entrada es `index.html`. GitHub Pages está configurado para publicar la rama `maqueta-pitocuna` desde **/docs**. `npm run build` copia el sitio completo a esa carpeta e incluye `.nojekyll`. Las fuentes se editan en la raíz; no edites las copias de `docs/` manualmente. Cuando Pages esté activado, el sitio esperado es https://23danycito2005.github.io/fdaso_2026/ . La comprobación externa depende del acceso de red del entorno; un push no demuestra por sí solo que el despliegue esté disponible.
+La entrada es `index.html`. GitHub Pages está configurado para publicar la rama `maqueta-pitocuna` desde **/docs**. `npm run build` copia el sitio completo a esa carpeta e incluye `.nojekyll`. La vista `?expediente=20261018#planos` carga el expediente y abre los planos. En una primera visita se cargan los datos publicados; un proyecto propio existente se conserva salvo que se use ese enlace de carga o el botón correspondiente. El estado anterior queda en el archivo local recuperable. `?demo=1` permite iniciar las pruebas ficticias en un navegador sin proyecto propio. Las fuentes se editan en la raíz; no edites las copias de `docs/` manualmente. Cuando Pages esté activado, el sitio esperado es https://23danycito2005.github.io/fdaso_2026/ . La comprobación externa depende del acceso de red del entorno; un push no demuestra por sí solo que el despliegue esté disponible.
 
 Para desarrollar o probar localmente, usa un servidor HTTP; los módulos JavaScript no se ejecutan abriendo el archivo con `file://`:
 
@@ -39,7 +39,7 @@ Para convertir PDF de APU S10 con texto seleccionable a un catálogo revisable (
 python3 scripts/extract-apu.py agua.pdf saneamiento.pdf ambiente.pdf -o catalogo-apu.csv
 ```
 
-Después de importar los metrados, usa **Cargar catálogo APU CSV**. Solo propone rendimientos con código, descripción normalizada y unidad coincidentes. Las diferencias quedan pendientes. El rendimiento APU se identifica como referencia, conserva PDF y página de origen y requiere validación con la cuadrilla; no equivale a productividad observada. El convertidor elimina archivos idénticos, rechaza códigos repetidos y solicita revisión si MO y EQ difieren. La aplicación web no abre PDF o DWG directamente.
+Después de importar los metrados, usa **Cargar catálogo APU CSV**. Solo propone rendimientos con código, descripción normalizada y unidad coincidentes. Las diferencias quedan pendientes. El rendimiento APU se identifica como referencia, conserva PDF y página de origen y requiere validación con la cuadrilla; no equivale a productividad observada. El convertidor elimina archivos idénticos, rechaza códigos repetidos y solicita revisión si MO y EQ difieren. La aplicación muestra vistas SVG derivadas de los DWG; los originales se descargan para abrirlos en CAD. Los APU pueden consultarse en el PDF original, con enlace a su página.
 
 En `ejemplos/` hay un Excel con hojas **Cronograma** y **Metrados**, dos CSV y un XML de prueba. Las plantillas CSV también se descargan desde la aplicación. Al importar sobre la demostración se inicia un proyecto propio, sin mezclar ejemplos; el proyecto anterior queda recuperable en **Restaurar respaldo → Recuperar proyecto anterior**.
 
@@ -69,8 +69,16 @@ python3 tests/browser_smoke.py
 - `scripts/excel-entry.js`: entrada para empaquetar el lector; `vendor/` contiene su artefacto y licencia.
 - `tests/`: casos de reglas y recorrido funcional de navegador. Sus salidas se excluyen de Git.
 
-La validación incluye reglas de producción, metrados de expediente, cruce conservador de APU y una comprobación del sitio generado para Pages, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Las pruebas versionadas utilizan datos ficticios. También se verificó localmente la lectura de los archivos de expediente aportados por el usuario; estos documentos y sus datos no se incluyen en el repositorio público.
+La validación incluye reglas de producción, metrados de expediente, cruce conservador de APU y una comprobación del sitio generado para Pages, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Las pruebas versionadas utilizan datos ficticios. También se verificó localmente la lectura de los archivos de expediente aportados por el usuario; sus datos y documentos se publicaron posteriormente con autorización expresa del usuario.
 
 ## Corrección de publicación
 
 Los intentos de Pages fallaban porque buscaban `/github/workspace/docs`, una carpeta inexistente. El sitio generado en `docs/` permite conservar la configuración seleccionada por el usuario. Antes de cada push de cambios de interfaz ejecuta `npm run build` y `npm test`; la prueba de despliegue detecta archivos ausentes o copias desactualizadas.
+
+## Planos vinculados y carga del expediente
+
+**Planos y expediente** relaciona 15 DWG únicos con 24 componentes, 705 registros de metrado y 718 tareas. Cada plano tiene sus partidas por especialidad y enlaces a metrados fuente, APU con página, cronograma XML y DWG original. Las instalaciones eléctricas de primaria se clasifican por el encabezado del Excel, ya que su código está dentro de un prefijo sanitario. La relación documental no homologa por sí sola WBS con códigos presupuestales ni certifica coincidencias geométricas.
+
+El visor permite acercar, desplazar y marcar una partida en un punto del plano; las marcas se conservan en el respaldo y pueden retirarse. Las marcas no crean cantidades ejecutadas ni porcentajes de avance. Los SVG se cargan por demanda y se descomprimen en el navegador; la conversión de DWG se realizó fuera del cliente. Las vistas pueden omitir elementos, especialmente entidades complejas y planos sanitarios con coordenadas geográficas. El encuadre es una referencia visual; el original permite contrastarlos. Los documentos que se abren quedan disponibles en la caché para usos posteriores sin conexión.
+
+`documents.js` valida relaciones y marcas, y `plans-ui.js` contiene la vista CAD. `project/` incluye el conjunto autorizado y sus fuentes. `python3 tests/plans_browser.py` verifica las vistas, los originales, las marcas y la navegación móvil con un servidor activo.

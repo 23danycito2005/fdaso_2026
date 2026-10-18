@@ -4,7 +4,7 @@ import json, os
 from playwright.sync_api import sync_playwright, expect
 
 ROOT = Path(__file__).resolve().parents[1]
-BASE = os.environ.get('PITOCUNA_TEST_URL', 'http://127.0.0.1:8766/')
+BASE = os.environ.get('PITOCUNA_TEST_URL', 'http://127.0.0.1:8766/?demo=1')
 OUTPUT = ROOT/'test-results'
 OUTPUT.mkdir(exist_ok=True)
 
