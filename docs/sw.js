@@ -1,4 +1,4 @@
-const CACHE='pitocuna-production-v3.0.0';
+const CACHE='pitocuna-production-v3.1.0';
 const FILES=['./','./index.html','./app.css','./app.js','./engine.js','./importers.js','./vendor/excel-reader.js','./icon.svg','./manifest.webmanifest','./ejemplos/datos-ejemplo.xlsx','./ejemplos/cronograma-ejemplo.xml'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(FILES)).then(()=>self.skipWaiting()));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(names=>Promise.all(names.filter(n=>n.startsWith('pitocuna-production-')&&n!==CACHE).map(n=>caches.delete(n)))).then(()=>self.clients.claim()));});

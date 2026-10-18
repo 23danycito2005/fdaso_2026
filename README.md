@@ -19,13 +19,27 @@ El servidor usa el puerto 8766. Node 24 se utilizó para la validación; Python 
 
 ## Recorrido funcional
 
-1. **Datos de obra:** importar cronograma `.xlsx`, `.csv` o MS Project `.xml`; `.mpp` debe exportarse a XML. Revisar hoja, fila de encabezado y asignación de columnas antes de confirmar. Las tareas resumen XML se excluyen; los hitos se conservan. Los vínculos distintos de fin–inicio sin desfase se señalan para revisión, y el calendario XML requiere confirmación manual.
+1. **Datos de obra:** importar cronograma `.xlsx`, `.csv` o MS Project `.xml`; `.mpp` debe exportarse a XML. Revisar hoja, fila de encabezado y asignación de columnas antes de confirmar. El WBS se conserva como referencia y requiere homologación con los códigos del expediente. Los vínculos SS o con desfase conservan sus datos originales y no generan un plan operativo fin–inicio hasta su revisión. Las tareas resumen XML se excluyen; los hitos se conservan. Los vínculos distintos de fin–inicio sin desfase se señalan para revisión, y el calendario XML requiere confirmación manual.
 2. **Ubicaciones y metrados:** relacionar por **código de partida + ubicación**. Diferenciar redes, reservorio y UBS; asignar grupo de flujo comparable, orden y cuadrilla. Registrar cantidad, unidad, rendimiento por jornada y su fuente. Q/R produce la duración; las unidades incompatibles o datos faltantes generan «no calculable».
 3. **Lookahead:** ventana de 3, 4, 6 u 8 semanas con duraciones calculadas y trabajo atrasado como arrastre. Se conservan las fechas de referencia; el plan operativo considera Q/R, precedencias y secuencia de la misma cuadrilla.
 4. **Preparación y restricciones:** vincular condiciones a una o varias actividades, responsable, fechas necesaria/estimada, evidencia y revisión. Una estimación no libera nada. La revisión de recursos, seguridad, calidad y frente debe confirmarse antes del compromiso; cambios relevantes la invalidan.
 5. **Plan semanal:** definir cantidad comprometida y criterio de término; incorporar únicamente actividades preparadas y coincidentes con la ventana semanal. Congelar antes del inicio y de los registros de resultados. El congelamiento conserva miembros, ventanas, calendario y fechas necesarias; no permite añadir o retirar miembros posteriormente.
 6. **Avance:** registrar cantidades diarias incrementales, evidencia y responsable dentro del corte observado. La entrega completa requiere confirmación adicional y el metrado íntegro. Los hitos tienen confirmación documentada sin cantidad. Las interrupciones se registran como intervalos de días completos; los coincidentes se consolidan.
 7. **Indicadores:** PPC desde el cierre del alcance/criterio; PRL con fecha necesaria más temprana de vínculos congelados, sin duplicar restricciones compartidas; continuidad ponderada por jornadas actividad–ubicación, dentro del tiempo programado observado. Un denominador nulo se muestra como «no aplica». El reporte CSV y el historial permiten revisar el origen.
+
+### Metrados de expediente y APU
+
+El importador detecta encabezados `PARTIDA / DESCRIPCIÓN / UNI, UNID. o UND / TOTAL` hasta la fila 100, tanto en tablas que comienzan en A como en B. Importa una hoja principal por vez: usa **TOTAL** sin multiplicarlo nuevamente por VECES ni sumar los detalles. Las hojas auxiliares de acero se revisan aparte y no se importan como otro metrado de producción. Un TOTAL vacío, sin resultado de fórmula o con error, y los códigos repetidos, bloquean la confirmación. La procedencia conserva archivo, hoja, fila y código original.
+
+El alcance agregado de una hoja puede registrarse por componente o tipo de UBS cuando no se dispone de frentes. Eso no define ubicaciones individuales ni una secuencia espacial LBMS. La distribución por frentes debe prepararse y validarse antes de planificar su flujo.
+
+Para convertir PDF de APU S10 con texto seleccionable a un catálogo revisable (requiere `pdftotext` de Poppler):
+
+```sh
+python3 scripts/extract-apu.py agua.pdf saneamiento.pdf ambiente.pdf -o catalogo-apu.csv
+```
+
+Después de importar los metrados, usa **Cargar catálogo APU CSV**. Solo propone rendimientos con código, descripción normalizada y unidad coincidentes. Las diferencias quedan pendientes. El rendimiento APU se identifica como referencia, conserva PDF y página de origen y requiere validación con la cuadrilla; no equivale a productividad observada. El convertidor elimina archivos idénticos, rechaza códigos repetidos y solicita revisión si MO y EQ difieren. La aplicación web no abre PDF o DWG directamente.
 
 En `ejemplos/` hay un Excel con hojas **Cronograma** y **Metrados**, dos CSV y un XML de prueba. Las plantillas CSV también se descargan desde la aplicación. Al importar sobre la demostración se inicia un proyecto propio, sin mezclar ejemplos; el proyecto anterior queda recuperable en **Restaurar respaldo → Recuperar proyecto anterior**.
 
@@ -55,7 +69,7 @@ python3 tests/browser_smoke.py
 - `scripts/excel-entry.js`: entrada para empaquetar el lector; `vendor/` contiene su artefacto y licencia.
 - `tests/`: casos de reglas y recorrido funcional de navegador. Sus salidas se excluyen de Git.
 
-Validación: 15 pruebas de reglas y una comprobación del sitio generado para Pages, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Los escenarios utilizados son ficticios.
+La validación incluye reglas de producción, metrados de expediente, cruce conservador de APU y una comprobación del sitio generado para Pages, lectura de Excel con dos hojas/CSV/XML, preparación → compromiso → congelamiento → avance → PPC y continuidad, persistencia tras recarga, respaldo, recarga sin conexión y navegación móvil de 390 px. Las pruebas versionadas utilizan datos ficticios. También se verificó localmente la lectura de los archivos de expediente aportados por el usuario; estos documentos y sus datos no se incluyen en el repositorio público.
 
 ## Corrección de publicación
 

@@ -5,7 +5,7 @@ export const addDays = (date, days) => new Date(Date.parse(date+'T00:00:00Z') + 
 export const validDate = value => typeof value==='string' && /^\d{4}-\d{2}-\d{2}$/.test(value) && !Number.isNaN(Date.parse(value)) && new Date(value+'T00:00:00Z').toISOString().slice(0,10)===value;
 export const key = (code, location) => `${String(code).trim()}::${String(location).trim()}`;
 export const uid = prefix => `${prefix}-${globalThis.crypto?.randomUUID?.() || Date.now().toString(36)+Math.random().toString(36).slice(2,8)}`;
-export const normalizeUnit = value => String(value||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/³/g,'3').replace(/²/g,'2').replace(/\s/g,'').replace(/^(und|unidad|unidades|ud)$/,'u');
+export const normalizeUnit = value => String(value||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/³/g,'3').replace(/²/g,'2').replace(/\s/g,'').replace(/^(und|unidad|unidades|ud)$/,'u').replace(/^ml(?=\/|$)/,'m');
 export function calendar(project){
   const origin=project.origin, work=project.work||[0,1,1,1,1,1,1], holidays=new Set(project.holidays||[]), cache=new Map([[origin,0]]);
   const capacity = d => holidays.has(d)?0:Number(work[new Date(d+'T00:00:00Z').getUTCDay()]||0);
@@ -64,6 +64,7 @@ export function compute(state){
     const crew=crewOrder.get(a.crew)||[],crewIndex=crew.indexOf(a.id);if(crewIndex>0)dependencies.push(crew[crewIndex-1]);
     const depRows=[...new Set(dependencies)].map(id=>{const predecessor=state.activities.find(x=>x.id===id);if(!predecessor){issues.push('Predecesora no encontrada: '+id);return null;}return visit(predecessor);});
     for(const dep of depRows){if(!dep||dep.f===null||dep.issues?.some(i=>i.includes('Ciclo'))){s=null;fs=null;issues.push('Secuencia no calculable');break;}if(s!==null)s=Math.max(s,dep.f);if(fs!==null){if(dep.ff===null)fs=null;else fs=Math.max(fs,dep.ff);}}
+    if(a.predecessorLinks?.some(l=>l.type!==1||l.lag!==0)){s=null;fs=null;issues.push('Vínculo de Project pendiente de revisión: no se calcula como fin–inicio');}
     if(s!==null&&d!==null)f=s+d;
     const pending=restrictionsOf(state,a.id).filter(r=>!isReleased(r,state.project.cut));
     let exposure=0;if(pending.some(r=>!validDate(r.estimated)))exposure=null;else if(s!==null&&pending.length)exposure=Math.max(0,...pending.map(r=>cal.index(r.estimated)-s));
