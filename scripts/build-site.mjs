@@ -9,7 +9,7 @@ async function projectFiles(folder){
 // Pages está configurado en esta rama para servir /docs. Estos archivos son
 // salidas reproducibles; las fuentes siguen en la raíz del repositorio.
 export const runtimeFiles=[
- '.nojekyll','index.html','app.css','app.js','engine.js','importers.js','documents.js','plans-ui.js',
+ '.nojekyll','index.html','app.css','workspace.css','app.js','engine.js','importers.js','documents.js','plans-ui.js','relations.js','workspace-ui.js',
  'sw.js','icon.svg','manifest.webmanifest','propuestas.html','avance-obra.html',
  'presentacion.html','aplicacion-unificada.png','propuesta-funcional.md',
  'vendor/excel-reader.js','vendor/read-excel-file-LICENSE.txt',

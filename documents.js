@@ -1,10 +1,12 @@
 import {key,uid} from './engine.js';
+import {validateRelations} from './relations.js';
 export const disciplines={arquitectura:'Arquitectura',estructura:'Estructuras',sanitaria:'Inst. sanitarias',electrica:'Inst. eléctricas',disposicion:'Disposición final'};
 export function related(state,drawing){
  const measures=new Set(drawing?.measureKeys||[]),activities=new Set(drawing?.activityIds||[]);
  return {measures:state.measures.filter(m=>measures.has(key(m.code,m.location))),activities:state.activities.filter(a=>activities.has(a.id)),pins:(state.drawingPins||[]).filter(p=>p.drawingId===drawing?.id)};
 }
 export function validateDocuments(state){
+ validateRelations(state);
  if(!state.components&&!state.drawings&&!state.drawingPins)return state;
  if(!Array.isArray(state.components)||!Array.isArray(state.drawings)||state.drawingPins&&!Array.isArray(state.drawingPins))throw Error('Expediente de planos incompleto');
  const components=new Set(),drawings=new Set(),measures=new Map(state.measures.map(m=>[key(m.code,m.location),m])),activities=new Map(state.activities.map(a=>[a.id,a]));
