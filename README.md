@@ -19,6 +19,8 @@ El servidor usa el puerto 8766. Node 24 se utilizó para la validación; Python 
 
 ## Recorrido funcional
 
+El inicio concentra actividades preparadas, restricciones abiertas y correspondencias pendientes. Los planos usan el selector compartido de componente. Las fórmulas y el historial se despliegan en Indicadores; crear otro proyecto está en **Datos de obra → Gestión del proyecto**, junto al acceso a respaldos. La antigua presentación redirige a la aplicación actual.
+
 La vista **Actividades** es el punto de consulta del expediente. Permite buscar, paginar y filtrar por componente; el componente se conserva al pasar a Lookahead, restricciones, metrados, avance y planos. Los indicadores y el plan semanal siempre muestran el corte completo para no alterar sus denominadores. Desde cada tarea se abre una ficha con cronograma, cantidad, APU, plano, condiciones de preparación, restricciones y compromisos. En **Datos de obra** quedan la importación, la configuración y los respaldos.
 
 El cruce documental del expediente inicial encuentra **443 correspondencias entre 716 tareas de producción** (más 2 hitos); **434** tienen Q/R de referencia compatible. Usa componente, descripción exacta salvo mayúsculas/acentos/espacios y código presupuestal derivado del WBS. La transformación del primer nivel WBS, desplazado por el hito inicial, se aplica exclusivamente al expediente identificado `pitocuna-public-2026-10-18`. Conserva dimensiones, fracciones y signos: una descripción diferente queda pendiente. No reutiliza un mismo metrado en varias tareas. Las 273 tareas restantes se revisan en **Por conciliar**.
