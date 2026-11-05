@@ -4,7 +4,10 @@ import * as D from './documents.js';
 import {plansPage,mountViewer} from './plans-ui.js';
 import * as R from './relations.js';
 import * as W from './workspace-ui.js';
-const STORAGE='pitocuna.production.v3', ARCHIVE='pitocuna.previous.v3';
+import {practiceState} from './practice.js';
+const REAL_STORAGE='pitocuna.production.v3',REAL_ARCHIVE='pitocuna.previous.v3',PRACTICE_STORAGE='pitocuna.practice.v1',PRACTICE_FLAG='pitocuna.practice.active';
+let sandboxActive=false;try{sandboxActive=localStorage.getItem(PRACTICE_FLAG)==='1';}catch{}
+let STORAGE=sandboxActive?PRACTICE_STORAGE:REAL_STORAGE,ARCHIVE=sandboxActive?'pitocuna.practice.previous.v1':REAL_ARCHIVE;
 async function publishedProject(){const response=await fetch('./project/pitocuna.json');if(!response.ok)throw Error('El expediente publicado no está disponible');return D.validateDocuments(E.validateBackup(await response.json()));}
 const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=v=>v===null||v===undefined||!Number.isFinite(v)?'No calculable':new Intl.NumberFormat('es-PE',{maximumFractionDigits:2}).format(v);
@@ -30,13 +33,33 @@ let documentRelations=new Map();
 const inScope=a=>!activitySelection.component||a.componentId===activitySelection.component;
 const ui=()=>({esc,num,date,badge,button,heading,notice,table,empty,stat});
 try{const saved=localStorage.getItem(STORAGE);state=saved?D.validateDocuments(E.validateBackup(JSON.parse(saved))):E.demoState();if(!saved)localStorage.setItem(STORAGE,JSON.stringify(state));}catch(e){state=E.demoState();storageFailure=true;}
-if((state.project.mode==='demo'||new URLSearchParams(location.search).get('expediente')==='20261018'&&state.project.datasetId!=='pitocuna-public-2026-10-18')&&!new URLSearchParams(location.search).has('demo')){try{const actual=await publishedProject();localStorage.setItem(ARCHIVE,JSON.stringify(state));localStorage.setItem(STORAGE,JSON.stringify(actual));state=actual;}catch{ /* Sin red o sin expediente: conserva el proyecto local. */ }}
+if(!sandboxActive&&(state.project.mode==='demo'||new URLSearchParams(location.search).get('expediente')==='20261018'&&state.project.datasetId!=='pitocuna-public-2026-10-18')&&!new URLSearchParams(location.search).has('demo')){try{const actual=await publishedProject();localStorage.setItem(ARCHIVE,JSON.stringify(state));localStorage.setItem(STORAGE,JSON.stringify(actual));state=actual;}catch{ /* Sin red o sin expediente: conserva el proyecto local. */ }}
 let view='inicio',dataTab='cronograma',weeks=6,filterStatus='todos',group='',chosenPlan='',pendingImport=null,toastTimer;
 function toast(message,error=false){clearTimeout(toastTimer);$('toast').textContent=message;$('toast').classList.toggle('error',error);$('toast').hidden=false;toastTimer=setTimeout(()=>$('toast').hidden=true,6500);}
 function modal(title,html){$('modal-title').textContent=title;$('modal-body').innerHTML=html;if(!$('modal').open)$('modal').showModal();}
 function commit(action,detail,fn,close=true){const old=E.clone(state);try{fn();E.validateBackup(state);D.validateDocuments(state);E.audit(state,action,detail);localStorage.setItem(STORAGE,JSON.stringify(state));storageFailure=false;if(close)$('modal').close();render();toast('Guardado en este navegador');return true;}catch(e){state=old;toast(e.message,true);return false;}}
 function download(name,content,type='text/plain'){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
-function backup(){download('pitocuna-respaldo.json',JSON.stringify(state,null,2),'application/json');}
+function backup(){download(sandboxActive?'pitocuna-prueba-ficticia.json':'pitocuna-respaldo.json',JSON.stringify(state,null,2),'application/json');}
+function practiceBar(){
+ $('practice-bar').innerHTML=sandboxActive?`<div class="practice-banner active"><div><b>Modo de prueba · datos ficticios</b><p>Prueba restricciones, compromisos y avance. Tus datos anteriores están guardados aparte. Para simular ejecución, cambia la fecha de corte al día observado.</p><div class="actions practice-links"><a href="#restricciones">1. Restricciones</a><a href="#lookahead">2. Preparación</a><a href="#semanal">3. Plan semanal</a><a href="#flujo">4. Flujo LBMS</a></div></div><div class="actions">${button('practice-reset','Reiniciar prueba')}${button('practice-exit','Volver a mis datos','','button')}</div></div>`:`<div class="practice-banner"><div><b>¿Quieres ver cómo funciona?</b><p>Abre un ejemplo separado con restricciones y asignaciones ficticias.</p></div>${button('practice-start','Probar con restricciones y asignaciones','','button')}</div>`;
+}
+function resetWorkspace(){activitySelection.component='';activitySelection.query='';activitySelection.status='all';activitySelection.page=0;planSelection.component='';planSelection.drawing='';planSelection.pinMeasure=null;group='';chosenPlan='';pendingImport=null;}
+function startPractice(){
+ const example=D.validateDocuments(practiceState());
+ if(!sandboxActive){
+  // Every write must succeed before switching; no real-project key is used inside the trial.
+  localStorage.setItem(REAL_STORAGE,JSON.stringify(state));
+  localStorage.setItem(PRACTICE_STORAGE,JSON.stringify(example));
+  localStorage.setItem(PRACTICE_FLAG,'1');
+ }else localStorage.setItem(PRACTICE_STORAGE,JSON.stringify(example));
+ state=example;sandboxActive=true;STORAGE=PRACTICE_STORAGE;ARCHIVE='pitocuna.practice.previous.v1';resetWorkspace();$('modal').close();location.hash='restricciones';render();toast('Ejemplo ficticio listo. Puedes volver a tus datos cuando quieras.');
+}
+function exitPractice(){
+ const saved=localStorage.getItem(REAL_STORAGE);if(!saved)throw Error('No se encuentra el proyecto anterior. La prueba se conserva; puedes recuperar un respaldo desde Datos de obra.');
+ const original=D.validateDocuments(E.validateBackup(JSON.parse(saved)));
+ localStorage.removeItem(PRACTICE_FLAG);
+ state=original;sandboxActive=false;STORAGE=REAL_STORAGE;ARCHIVE=REAL_ARCHIVE;resetWorkspace();$('modal').close();location.hash='inicio';render();toast('Volviste a tus datos. Los cambios de prueba quedaron aparte.');
+}
 function selectedPlan(){return state.plans.find(p=>p.id===chosenPlan)||state.plans.at(-1);}
 function currentModel(){return E.compute(state);}
 function activityLink(a){return `<button class="link-button" data-action="activity" data-id="${esc(a.id)}">${esc(a.id)}</button><b>${esc(a.name)}</b><small>${esc(a.code)} · ${esc(a.location||'Sin ubicación')}</small>`;}
@@ -146,6 +169,7 @@ function linkPreview(value){
  $('link-preview').innerHTML=m?`<div class="notice"><b>${esc(m.name)}</b><br>${num(m.quantity)} ${esc(m.unit)} · ${esc(m.sourceSheet||m.location)}${m.sourceRow?' · fila '+m.sourceRow:''}</div>`:'';
 }
 function render(){
+ practiceBar();
  const valid=['inicio','actividades','datos','lookahead','restricciones','semanal','avance','indicadores','planos','flujo'],hash=location.hash.slice(1),aliases={panel:'inicio',board:'restricciones',field:'avance',lbms:'flujo',visualizacion:'planos'};view=aliases[hash]||hash||'inicio';if(!valid.includes(view))view='inicio';
  document.querySelectorAll('[data-view]').forEach(a=>{const active=a.dataset.view===view||a.dataset.view==='planos'&&view==='flujo';a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
  $('project-name').textContent=state.project.name;$('project-mode').textContent=state.project.mode==='demo'?'DATOS DE PRUEBA':'PROYECTO PROPIO';$('cut-date').value=state.project.cut;$('save-status').textContent=storageFailure?'Guardado local no disponible':'Guardado en este dispositivo';
@@ -317,6 +341,9 @@ document.addEventListener('click',async event=>{
  const target=event.target.closest('[data-action]');if(!target)return;const id=target.dataset.id;
  try{
   switch(target.dataset.action){
+   case 'practice-start':startPractice();break;
+   case 'practice-reset':if(confirm('¿Reiniciar solo los datos ficticios de la prueba? Tus datos anteriores se conservan.'))startPractice();break;
+   case 'practice-exit':exitPractice();break;
    case 'load-published':{const incoming=await publishedProject();commit('Carga de expediente publicado',incoming.project.name,()=>{localStorage.setItem(ARCHIVE,JSON.stringify(state));state=incoming;});location.hash='planos';break;}
    case 'plan-drawing':planSelection.drawing=id;planSelection.pinMeasure=null;render();break;
    case 'go-plan':{const d=state.drawings.find(d=>d.id===id);if(d){activitySelection.component=d.componentId;activitySelection.page=0;planSelection.component=d.componentId;planSelection.drawing=d.id;planSelection.pinMeasure=null;$('modal').close();location.hash='planos';if(view==='planos')render();}break;}
