@@ -19,6 +19,10 @@ El servidor usa el puerto 8766. Node 24 se utilizó para la validación; Python 
 
 ## Recorrido funcional
 
+**Registro rápido:** al abrir una restricción desde una ficha, la actividad ya está seleccionada y se propone su inicio como fecha necesaria, editable. Se escribe el problema y el responsable; tipo, fecha estimada y otros vínculos quedan en **Más opciones**. Desde la vista general se debe elegir la actividad. La evidencia se solicita en la liberación. El formulario reutiliza responsables y cuadrillas mediante sugerencias, sin asignarlos por cuenta propia.
+
+La edición rápida de actividades muestra nombre, ubicación, cuadrilla y fechas. El alta añade un selector de componente; ubicación y cuadrilla pueden completarse después. ID y fuente manual se generan automáticamente, y el código omitido queda como referencia provisional. Códigos de partida, grupo/orden LBMS, precedencias e incompatibilidades se editan en **Planificación técnica**. Guardar no confirma preparación: permanecen los requisitos de cantidades por ubicación, calendario, secuencia y revisión. Los avisos y vínculos de Project se conservan al editar ubicación o cuadrilla; solo la adaptación explícita los da por revisados.
+
 El inicio concentra actividades preparadas, restricciones abiertas y correspondencias pendientes. Los planos usan el selector compartido de componente. Las fórmulas y el historial se despliegan en Indicadores; crear otro proyecto está en **Datos de obra → Gestión del proyecto**, junto al acceso a respaldos. La antigua presentación redirige a la aplicación actual.
 
 La vista **Actividades** es el punto de consulta del expediente. Permite buscar, paginar y filtrar por componente; el componente se conserva al pasar a Lookahead, restricciones, metrados, avance y planos. Los indicadores y el plan semanal siempre muestran el corte completo para no alterar sus denominadores. Desde cada tarea se abre una ficha con cronograma, cantidad, APU, plano, condiciones de preparación, restricciones y compromisos. En **Datos de obra** quedan la importación, la configuración y los respaldos.

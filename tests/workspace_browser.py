@@ -33,6 +33,7 @@ with sync_playwright() as p:
     page.locator('#modal [data-action="restriction"]').click()
     page.locator('[name="title"]').fill('Verificar entrega del material · prueba')
     page.locator('[name="owner"]').fill('Responsable de prueba')
+    page.locator('[data-form="restriction"] summary').click()
     page.locator('[name="estimated"]').fill('2026-05-15')
     page.locator('[data-link-date]').fill('2026-05-16')
     page.locator('[data-action="add-restriction-link"]').click()
