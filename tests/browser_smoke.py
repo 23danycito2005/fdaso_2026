@@ -45,7 +45,7 @@ with sync_playwright() as p:
     expect(page.locator('#main')).to_contain_text('Plan congelado')
     page.locator('#cut-date').fill('2026-05-16')
     page.locator('#cut-date').dispatch_event('change')
-    nav('avance','Avance y flujo por ubicación')
+    nav('avance','Avance por ubicación')
     page.locator('[data-action="progress"][data-id="TU-01"]').click()
     page.locator('[name="date"]').fill('2026-05-14')
     page.locator('[name="quantity"]').fill('100')
@@ -162,7 +162,7 @@ with sync_playwright() as p:
     page.locator('#modal').get_by_role('button',name='Cancelar',exact=True).click()
     context.set_offline(False)
     page.set_viewport_size({'width':390,'height':844})
-    for view,title in [('datos','Datos que alimentan el modelo'),('lookahead','Lookahead · preparar el trabajo'),('restricciones','Liberación de restricciones'),('semanal','Plan semanal · comprometer y cumplir'),('avance','Avance y flujo por ubicación'),('indicadores','Indicadores que se pueden reconstruir')]:
+    for view,title in [('datos','Datos que alimentan el modelo'),('lookahead','Lookahead · preparar el trabajo'),('restricciones','Liberación de restricciones'),('semanal','Plan semanal · comprometer y cumplir'),('avance','Avance por ubicación'),('indicadores','Indicadores que se pueden reconstruir')]:
         nav(view,title)
         assert page.evaluate('document.documentElement.scrollWidth <= window.innerWidth'),view
     page.screenshot(path=str(OUTPUT/'movil.png'),full_page=True)

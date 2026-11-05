@@ -19,6 +19,8 @@ El servidor usa el puerto 8766. Node 24 se utilizó para la validación; Python 
 
 ## Recorrido funcional
 
+**Visualización de obra** reúne los visores en dos pestañas: **Planos CAD** (`#planos`) y **Flujo LBMS** (`#flujo`). Comparten el componente seleccionado y conservan los enlaces desde las fichas de actividad. El acceso antiguo `#lbms` abre la pestaña de flujo; `#visualizacion` abre los planos. **Registro de avance** conserva la captura de cantidades, entregas e interrupciones, con acceso directo al visor. Consultar o cambiar de pestaña no genera registros de ejecución; si faltan ubicaciones para LBMS se muestra qué información completar.
+
 **Registro rápido:** al abrir una restricción desde una ficha, la actividad ya está seleccionada y se propone su inicio como fecha necesaria, editable. Se escribe el problema y el responsable; tipo, fecha estimada y otros vínculos quedan en **Más opciones**. Desde la vista general se debe elegir la actividad. La evidencia se solicita en la liberación. El formulario reutiliza responsables y cuadrillas mediante sugerencias, sin asignarlos por cuenta propia.
 
 La edición rápida de actividades muestra nombre, ubicación, cuadrilla y fechas. El alta añade un selector de componente; ubicación y cuadrilla pueden completarse después. ID y fuente manual se generan automáticamente, y el código omitido queda como referencia provisional. Códigos de partida, grupo/orden LBMS, precedencias e incompatibilidades se editan en **Planificación técnica**. Guardar no confirma preparación: permanecen los requisitos de cantidades por ubicación, calendario, secuencia y revisión. Los avisos y vínculos de Project se conservan al editar ubicación o cuadrilla; solo la adaptación explícita los da por revisados.
@@ -73,6 +75,7 @@ npm run build:excel
 npm run build
 # Con npm run dev activo y Playwright Python/Chromium disponibles:
 python3 tests/browser_smoke.py
+PITOCUNA_TEST_URL=http://127.0.0.1:8766/ python3 tests/visualization_browser.py
 PITOCUNA_TEST_URL=http://127.0.0.1:8766/ python3 tests/workspace_browser.py
 PITOCUNA_TEST_URL=http://127.0.0.1:8766/ python3 tests/plans_browser.py
 ```
