@@ -4,9 +4,9 @@ import * as D from './documents.js';
 import {plansPage,mountViewer} from './plans-ui.js';
 import * as R from './relations.js';
 import * as W from './workspace-ui.js';
-import {practiceState} from './practice.js';
+import {practiceState,emptyPracticeState} from './practice.js?v=3.7.0';
 const REAL_STORAGE='pitocuna.production.v3',REAL_ARCHIVE='pitocuna.previous.v3',PRACTICE_STORAGE='pitocuna.practice.v1',PRACTICE_FLAG='pitocuna.practice.active';
-let sandboxActive=false;try{sandboxActive=localStorage.getItem(PRACTICE_FLAG)==='1';}catch{}
+let sandboxActive=false,practicePreset='defaults';try{const flag=localStorage.getItem(PRACTICE_FLAG);sandboxActive=['1','empty'].includes(flag);practicePreset=flag==='empty'?'empty':'defaults';}catch{}
 let STORAGE=sandboxActive?PRACTICE_STORAGE:REAL_STORAGE,ARCHIVE=sandboxActive?'pitocuna.practice.previous.v1':REAL_ARCHIVE;
 async function publishedProject(){const response=await fetch('./project/pitocuna.json');if(!response.ok)throw Error('El expediente publicado no está disponible');return D.validateDocuments(E.validateBackup(await response.json()));}
 const $=id=>document.getElementById(id), esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -41,18 +41,24 @@ function commit(action,detail,fn,close=true){const old=E.clone(state);try{fn();E
 function download(name,content,type='text/plain'){const url=URL.createObjectURL(new Blob([content],{type})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
 function backup(){download(sandboxActive?'pitocuna-prueba-ficticia.json':'pitocuna-respaldo.json',JSON.stringify(state,null,2),'application/json');}
 function practiceBar(){
- $('practice-bar').innerHTML=sandboxActive?`<div class="practice-banner active"><div><b>Modo de prueba · datos ficticios</b><p>Prueba restricciones, compromisos y avance. Tus datos anteriores están guardados aparte. Para simular ejecución, cambia la fecha de corte al día observado.</p><div class="actions practice-links"><a href="#restricciones">1. Restricciones</a><a href="#lookahead">2. Preparación</a><a href="#semanal">3. Plan semanal</a><a href="#flujo">4. Flujo LBMS</a></div></div><div class="actions">${button('practice-reset','Reiniciar prueba')}${button('practice-exit','Volver a mis datos','','button')}</div></div>`:`<div class="practice-banner"><div><b>¿Quieres ver cómo funciona?</b><p>Abre un ejemplo separado con restricciones y asignaciones ficticias.</p></div>${button('practice-start','Probar con restricciones y asignaciones','','button')}</div>`;
+ const kind=sandboxActive?practicePreset:'real',labels={real:'MIS DATOS',empty:'PRUEBA VACÍA',defaults:'VALORES PREDETERMINADOS · FICTICIOS'};
+ const choice=(action,label,mode,description)=>`<button type="button" data-action="${action}" class="scenario-choice ${kind===mode?'selected':''}" aria-pressed="${kind===mode}" ${mode==='real'&&!sandboxActive?'disabled':''}><b>${label}</b><small>${description}</small></button>`;
+ $('practice-bar').innerHTML=`<section class="scenario-panel ${sandboxActive?'testing':''}" aria-label="Selector de datos"><div class="scenario-heading"><b>ELIGE QUÉ DATOS QUIERES VER</b><span class="scenario-status" role="status">Activo: ${labels[kind]}</span></div><div class="scenario-options">${choice('practice-exit','Mis datos','real','Tu proyecto guardado')}${choice('practice-empty','Prueba vacía','empty','Empezar sin registros ficticios')}${choice('practice-start','Valores predeterminados','defaults','Cargar restricciones y asignaciones de ejemplo')}</div><p class="scenario-counts">${state.activities.length} actividades · ${state.restrictions.length} restricciones · ${state.plans.reduce((n,p)=>n+p.members.length,0)} compromisos</p>${sandboxActive?`<div class="practice-banner active"><div><b>Modo de prueba · ${practicePreset==='empty'?'espacio iniciado vacío':'datos ficticios predeterminados'}</b><p>Tus datos están guardados aparte. «Mis datos» los recupera. Para simular ejecución, ajusta la fecha de corte al día observado.</p><div class="actions practice-links"><a href="#restricciones">Restricciones</a><a href="#lookahead">Preparación</a><a href="#semanal">Plan semanal</a><a href="#flujo">Flujo LBMS</a></div></div>${button('practice-reset',practicePreset==='empty'?'Vaciar esta prueba':'Reiniciar valores predeterminados')}</div>`:'<p class="table-note">Las dos opciones de prueba se guardan aparte de tu proyecto.</p>'}</section>`;
 }
 function resetWorkspace(){activitySelection.component='';activitySelection.query='';activitySelection.status='all';activitySelection.page=0;planSelection.component='';planSelection.drawing='';planSelection.pinMeasure=null;group='';chosenPlan='';pendingImport=null;}
-function startPractice(){
- const example=D.validateDocuments(practiceState());
- if(!sandboxActive){
-  // Every write must succeed before switching; no real-project key is used inside the trial.
-  localStorage.setItem(REAL_STORAGE,JSON.stringify(state));
+function startPractice(preset='defaults',force=false){
+ if(sandboxActive&&practicePreset===preset&&!force){toast('Esta opción ya está activa. Usa el botón de reinicio para restablecerla.');return;}
+ const example=D.validateDocuments(preset==='empty'?emptyPracticeState():practiceState());
+ const previousTrial=localStorage.getItem(PRACTICE_STORAGE),previousFlag=localStorage.getItem(PRACTICE_FLAG);
+ if(!sandboxActive)localStorage.setItem(REAL_STORAGE,JSON.stringify(state));
+ try{
   localStorage.setItem(PRACTICE_STORAGE,JSON.stringify(example));
-  localStorage.setItem(PRACTICE_FLAG,'1');
- }else localStorage.setItem(PRACTICE_STORAGE,JSON.stringify(example));
- state=example;sandboxActive=true;STORAGE=PRACTICE_STORAGE;ARCHIVE='pitocuna.practice.previous.v1';resetWorkspace();$('modal').close();location.hash='restricciones';render();toast('Ejemplo ficticio listo. Puedes volver a tus datos cuando quieras.');
+  localStorage.setItem(PRACTICE_FLAG,preset==='empty'?'empty':'1');
+ }catch(error){
+  try{if(previousTrial===null)localStorage.removeItem(PRACTICE_STORAGE);else localStorage.setItem(PRACTICE_STORAGE,previousTrial);if(previousFlag===null)localStorage.removeItem(PRACTICE_FLAG);else localStorage.setItem(PRACTICE_FLAG,previousFlag);}catch{}
+  throw error;
+ }
+ state=example;sandboxActive=true;practicePreset=preset;STORAGE=PRACTICE_STORAGE;ARCHIVE='pitocuna.practice.previous.v1';resetWorkspace();$('modal').close();location.hash=preset==='empty'?'inicio':'restricciones';render();toast(preset==='empty'?'Prueba vacía: sin actividades, restricciones ni compromisos.':'Valores predeterminados cargados. Todos son ficticios.');
 }
 function exitPractice(){
  const saved=localStorage.getItem(REAL_STORAGE);if(!saved)throw Error('No se encuentra el proyecto anterior. La prueba se conserva; puedes recuperar un respaldo desde Datos de obra.');
@@ -70,7 +76,7 @@ function startPage(model){
  return heading('INICIO','Del cronograma al trabajo preparado','Los datos de obra alimentan la preparación, los compromisos y el flujo por ubicación. Cada salida se puede reconstruir desde sus registros.',state.components?.length?'<a class="button" href="#planos">Ver planos y expediente cargado</a>':button('go-data','Cargar cronograma y metrados','','button'))+
  `<div class="stats">${stat('Actividades localizadas',state.activities.filter(a=>a.location).length,`${state.activities.length} actividades en el cronograma`)}${stat('Datos por completar',unlinked,'Sin metrado o rendimiento calculable')}${stat('Restricciones abiertas',pending.length,'Una estimación no confirma la liberación')}${stat('Actividades preparadas',ready,'Con revisión de preparación vigente')}</div>`+
  `<section class="panel"><div class="panel-header"><h2>Así funciona el modelo de tu tesis</h2>${badge('Actividad · ubicación · tiempo')}</div><div class="steps">${steps.map(([url,n,title,body])=>`<a href="#${url}" class="step"><span class="n">${n.padStart(2,'0')}</span><b>${title}</b><p>${body}</p></a>`).join('')}</div>${notice('El cronograma conserva sus fechas de referencia. El plan operativo calcula <b>d = Q / R</b>; las restricciones y las precedencias condicionan el pronóstico. Solo el trabajo revisado entra al compromiso semanal.')}</section>`+
- `<div class="grid2"><section class="panel"><div class="panel-header"><h2>Próximas decisiones</h2><a href="#lookahead" class="link-button">Abrir Lookahead</a></div><ul class="status-list">${E.lookahead(state,weeks,model).slice(0,5).map(a=>{const r=E.readiness(state,a,model);return `<li><div class="actions">${activityLink(a)}${badge(r.state,tone(r.state))}</div><small class="muted">${esc(r.reasons[0]||'Disponible para acordar su compromiso')}</small></li>`;}).join('')||'<li>Carga un cronograma para comenzar.</li>'}</ul></section><section class="panel"><h2>Datos con contexto</h2>${state.project.mode==='demo'?notice('<b>Escenario de prueba.</b> Las 8 actividades, cantidades y fechas son ficticias. Al importar tus archivos se iniciará un proyecto propio sin mezclar los ejemplos.','warning'):notice('<b>Proyecto propio.</b> Conserva la fuente y versión de tus registros; exporta respaldos periódicos.')}<p class="small muted">El residente o responsable de producción revisa las condiciones y decide qué trabajo comprometer. La ausencia de alertas no sustituye esa revisión.</p><div class="actions">${button('template-schedule','Plantilla cronograma CSV')}${button('template-measures','Plantilla metrados CSV')}</div></section></div>`;
+ `<div class="grid2"><section class="panel"><div class="panel-header"><h2>Próximas decisiones</h2><a href="#lookahead" class="link-button">Abrir Lookahead</a></div><ul class="status-list">${E.lookahead(state,weeks,model).slice(0,5).map(a=>{const r=E.readiness(state,a,model);return `<li><div class="actions">${activityLink(a)}${badge(r.state,tone(r.state))}</div><small class="muted">${esc(r.reasons[0]||'Disponible para acordar su compromiso')}</small></li>`;}).join('')||'<li>Carga un cronograma para comenzar.</li>'}</ul></section><section class="panel"><h2>Datos con contexto</h2>${state.project.mode==='demo'?notice(state.activities.length?'<b>Datos ficticios.</b> Este espacio permite ensayar registros y condiciones.':'<b>Prueba vacía.</b> Todavía no hay actividades, restricciones ni compromisos. Puedes empezar por añadir una actividad.','warning'):notice('<b>Proyecto propio.</b> Conserva la fuente y versión de tus registros; exporta respaldos periódicos.')}<p class="small muted">El residente o responsable de producción revisa las condiciones y decide qué trabajo comprometer. La ausencia de alertas no sustituye esa revisión.</p><div class="actions">${button('template-schedule','Plantilla cronograma CSV')}${button('template-measures','Plantilla metrados CSV')}</div></section></div>`;
 }
 function dataPage(model){
  const tabs=[['cronograma','Cronograma'],['metrados','Metrados y rendimientos'],['ubicaciones','Ubicaciones LBS'],['calendario','Proyecto y calendario']];
@@ -341,8 +347,9 @@ document.addEventListener('click',async event=>{
  const target=event.target.closest('[data-action]');if(!target)return;const id=target.dataset.id;
  try{
   switch(target.dataset.action){
-   case 'practice-start':startPractice();break;
-   case 'practice-reset':if(confirm('¿Reiniciar solo los datos ficticios de la prueba? Tus datos anteriores se conservan.'))startPractice();break;
+   case 'practice-start':startPractice('defaults');break;
+   case 'practice-empty':startPractice('empty');break;
+   case 'practice-reset':if(confirm('¿Reiniciar solo los datos ficticios de la prueba? Tus datos anteriores se conservan.'))startPractice(practicePreset,true);break;
    case 'practice-exit':exitPractice();break;
    case 'load-published':{const incoming=await publishedProject();commit('Carga de expediente publicado',incoming.project.name,()=>{localStorage.setItem(ARCHIVE,JSON.stringify(state));state=incoming;});location.hash='planos';break;}
    case 'plan-drawing':planSelection.drawing=id;planSelection.pinMeasure=null;render();break;

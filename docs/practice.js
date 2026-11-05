@@ -16,3 +16,10 @@ export function practiceState(){
  E.audit(state,'Prueba guiada','Datos ficticios: 8 actividades, 4 restricciones, cuadrillas y 2 compromisos semanales.');
  return E.validateBackup(state);
 }
+
+export function emptyPracticeState(){
+ const state=E.emptyState();
+ Object.assign(state.project,{name:'Prueba vacía · sin registros',mode:'demo',operator:'Responsable de prueba'});
+ E.audit(state,'Prueba vacía','Espacio ficticio sin actividades, metrados, restricciones, ejecución ni compromisos.');
+ return state;
+}

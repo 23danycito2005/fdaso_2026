@@ -15,9 +15,21 @@ with sync_playwright() as p:
     page.locator('#cut-date').fill('2026-05-02');page.locator('#cut-date').dispatch_event('change')
     original=page.evaluate('localStorage.getItem("pitocuna.production.v3")')
     archive=page.evaluate('localStorage.getItem("pitocuna.previous.v3")')
+    expect(page.locator('[data-action="practice-exit"]')).to_have_attribute('aria-pressed','true')
+    page.locator('[data-action="practice-empty"]').click()
+    expect(page.locator('.scenario-status')).to_contain_text('PRUEBA VACÍA')
+    expect(page.locator('.scenario-counts')).to_have_text('0 actividades · 0 restricciones · 0 compromisos')
+    assert page.evaluate('JSON.parse(localStorage.getItem("pitocuna.practice.v1")).measures.length')==0
+    page.reload()
+    expect(page.locator('[data-action="practice-empty"]')).to_have_attribute('aria-pressed','true')
+    expect(page.locator('#main')).to_contain_text('Prueba vacía')
+    page.screenshot(path=str(OUT/'selector-prueba-vacia.png'))
+    assert page.evaluate('localStorage.getItem("pitocuna.production.v3")')==original
     page.locator('[data-action="practice-start"]').click()
     expect(page.locator('#practice-bar')).to_contain_text('Modo de prueba')
     expect(page.locator('.ticket')).to_have_count(4)
+    expect(page.locator('[data-action="practice-start"]')).to_have_attribute('aria-pressed','true')
+    expect(page.locator('.scenario-counts')).to_have_text('8 actividades · 4 restricciones · 2 compromisos')
     assert page.evaluate('JSON.parse(localStorage.getItem("pitocuna.practice.v1")).plans[0].members.length')==2
     assert page.evaluate('localStorage.getItem("pitocuna.production.v3")')==original
     page.screenshot(path=str(OUT/'prueba-restricciones.png'))

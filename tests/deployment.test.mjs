@@ -10,7 +10,7 @@ test('La fuente /docs de Pages contiene la aplicación completa y actualizada',a
   assert.deepEqual(published,source,`${name}: ejecuta npm run build antes de publicar`);
  }
  const index=await readFile(resolve(root,'docs/index.html'),'utf8');
- assert.match(index,/src="app\.js"/);
+ assert.match(index,/src="app\.js(?:\?v=\d+\.\d+\.\d+)?"/);
  assert.match(index,/href="app\.css"/);
  assert.match(index,/sujeta a modificaciones/);
  assert.equal((await readFile(resolve(root,'docs/.nojekyll'))).length,0);
