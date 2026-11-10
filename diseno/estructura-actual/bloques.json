@@ -1,0 +1,899 @@
+[
+  {
+    "title": "01 · Mapa de pantallas",
+    "nodes": [
+      {
+        "id": "A00",
+        "title": "PITOCUNA · Aplicación de tesis",
+        "lines": [
+          "Propuesta preliminar, sujeta a modificaciones y validación."
+        ],
+        "x": 40,
+        "y": 100,
+        "w": 1620,
+        "h": 75,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "S00",
+        "title": "Selector superior · siempre visible",
+        "lines": [
+          "Mis datos: proyecto guardado.  |  Prueba vacía: sin registros.  |  Valores predeterminados: ejemplo ficticio.",
+          "La opción activa y los contadores se muestran arriba. Mis datos y prueba se guardan por separado."
+        ],
+        "x": 40,
+        "y": 195,
+        "w": 1620,
+        "h": 105,
+        "color": "amber",
+        "kind": "box"
+      },
+      {
+        "id": "G01",
+        "title": "RESUMEN",
+        "lines": [],
+        "x": 40,
+        "y": 330,
+        "w": 330,
+        "h": 50,
+        "color": "gray",
+        "kind": "group"
+      },
+      {
+        "id": "M01",
+        "title": "Resumen del proyecto",
+        "lines": [
+          "Pendientes y estado general.",
+          "Acceso a actividades y componentes.",
+          "Revisar ubicación y calendario."
+        ],
+        "x": 40,
+        "y": 400,
+        "w": 330,
+        "h": 155,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "G02",
+        "title": "MENÚ · PREPARAR Y EJECUTAR",
+        "lines": [],
+        "x": 400,
+        "y": 330,
+        "w": 780,
+        "h": 50,
+        "color": "gray",
+        "kind": "group"
+      },
+      {
+        "id": "M02",
+        "title": "Actividades",
+        "lines": [
+          "Buscar y filtrar por componente.",
+          "Ficha: cronograma + Q/R + APU,",
+          "planos, restricciones y compromisos."
+        ],
+        "x": 400,
+        "y": 400,
+        "w": 380,
+        "h": 160,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "M03",
+        "title": "Lookahead",
+        "lines": [
+          "Ventana de 3, 4, 6 u 8 semanas.",
+          "Revisar condiciones y restricciones.",
+          "Confirmar preparación cuando procede."
+        ],
+        "x": 800,
+        "y": 400,
+        "w": 380,
+        "h": 160,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "M04",
+        "title": "Restricciones",
+        "lines": [
+          "Problema, responsable y fecha necesaria.",
+          "Abierta / en revisión / liberada.",
+          "Evidencia y revisión para liberar."
+        ],
+        "x": 400,
+        "y": 590,
+        "w": 380,
+        "h": 160,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "M05",
+        "title": "Plan semanal",
+        "lines": [
+          "Actividad preparada + cantidad + criterio.",
+          "Borrador → congelar → evaluar.",
+          "Conserva los compromisos del corte."
+        ],
+        "x": 800,
+        "y": 590,
+        "w": 380,
+        "h": 160,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "M06",
+        "title": "Registro de avance",
+        "lines": [
+          "Cantidades diarias y evidencia.",
+          "Confirmación de entrega completa.",
+          "Interrupciones con fechas y causa."
+        ],
+        "x": 400,
+        "y": 780,
+        "w": 380,
+        "h": 160,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "M07",
+        "title": "Indicadores",
+        "lines": [
+          "PPC, PRL y continuidad.",
+          "Reporte CSV, fórmulas e historial.",
+          "Resultados a partir de registros."
+        ],
+        "x": 800,
+        "y": 780,
+        "w": 380,
+        "h": 160,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "G03",
+        "title": "MENÚ · EXPEDIENTE Y CONFIGURACIÓN",
+        "lines": [],
+        "x": 1210,
+        "y": 330,
+        "w": 450,
+        "h": 50,
+        "color": "gray",
+        "kind": "group"
+      },
+      {
+        "id": "M08",
+        "title": "Visualización de obra",
+        "lines": [
+          "Un mismo espacio para consultar",
+          "planos y flujo por componente."
+        ],
+        "x": 1210,
+        "y": 400,
+        "w": 450,
+        "h": 100,
+        "color": "purple",
+        "kind": "box"
+      },
+      {
+        "id": "M08A",
+        "title": "Planos CAD",
+        "lines": [
+          "Visor, zoom y marcas documentales.",
+          "Partidas, APU y descarga DWG."
+        ],
+        "x": 1210,
+        "y": 520,
+        "w": 215,
+        "h": 160,
+        "color": "purple",
+        "kind": "box"
+      },
+      {
+        "id": "M08B",
+        "title": "Flujo LBMS",
+        "lines": [
+          "Gráfico tiempo–ubicación.",
+          "Plan y pronóstico; puntos",
+          "observados cuando existen."
+        ],
+        "x": 1445,
+        "y": 520,
+        "w": 215,
+        "h": 160,
+        "color": "purple",
+        "kind": "box"
+      },
+      {
+        "id": "M09",
+        "title": "Datos de obra",
+        "lines": [
+          "4 pestañas de importación y configuración.",
+          "Respaldo JSON y nuevo proyecto."
+        ],
+        "x": 1210,
+        "y": 700,
+        "w": 450,
+        "h": 95,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "M09A",
+        "title": "Cronograma",
+        "lines": [
+          "Excel / CSV / Project XML."
+        ],
+        "x": 1210,
+        "y": 815,
+        "w": 215,
+        "h": 100,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "M09B",
+        "title": "Metrados y R",
+        "lines": [
+          "Cantidad, unidad y rendimiento."
+        ],
+        "x": 1445,
+        "y": 815,
+        "w": 215,
+        "h": 100,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "M09C",
+        "title": "Ubicaciones LBS",
+        "lines": [
+          "Ubicación, grupo y orden."
+        ],
+        "x": 1210,
+        "y": 925,
+        "w": 215,
+        "h": 100,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "M09D",
+        "title": "Proyecto/calendario",
+        "lines": [
+          "Jornadas y feriados."
+        ],
+        "x": 1445,
+        "y": 925,
+        "w": 215,
+        "h": 100,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "C00",
+        "title": "Controles compartidos",
+        "lines": [
+          "Fecha de corte: limita la observación.",
+          "Componente: se conserva entre vistas.",
+          "Plan semanal e indicadores evalúan",
+          "el corte completo, sin filtrar miembros."
+        ],
+        "x": 40,
+        "y": 600,
+        "w": 330,
+        "h": 185,
+        "color": "amber",
+        "kind": "box"
+      },
+      {
+        "id": "C01",
+        "title": "Cómo pedir un cambio",
+        "lines": [
+          "Usa el código del bloque.",
+          "Ejemplo: «Mover M09C bajo M08».",
+          "Ese cambio aún NO está aplicado."
+        ],
+        "x": 40,
+        "y": 820,
+        "w": 330,
+        "h": 165,
+        "color": "gray",
+        "kind": "box"
+      },
+      {
+        "id": "L00",
+        "title": "LBS ≠ LBMS",
+        "lines": [
+          "LBS organiza los lugares de trabajo. LBMS utiliza esas ubicaciones, cantidades y tiempos para representar el flujo. Los planos CAD son otra vista del expediente."
+        ],
+        "x": 40,
+        "y": 1040,
+        "w": 1620,
+        "h": 95,
+        "color": "amber",
+        "kind": "box"
+      }
+    ],
+    "edges": [
+      {
+        "a": "M08",
+        "b": "M08A",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "M08",
+        "b": "M08B",
+        "label": "",
+        "via": null,
+        "dash": false
+      }
+    ]
+  },
+  {
+    "title": "02 · Proceso de trabajo",
+    "nodes": [
+      {
+        "id": "F01",
+        "title": "Cargar las fuentes",
+        "lines": [
+          "Cronograma XML / Excel / CSV.",
+          "Metrados y catálogo de rendimientos."
+        ],
+        "x": 40,
+        "y": 140,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "F02",
+        "title": "Revisar la importación",
+        "lines": [
+          "Elegir hoja y columnas; validar errores.",
+          "Conservar fechas y precedencias."
+        ],
+        "x": 455,
+        "y": 140,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "F03",
+        "title": "Completar actividad–ubicación",
+        "lines": [
+          "Vincular cantidad Q y rendimiento R.",
+          "Definir ubicación, orden y cuadrilla."
+        ],
+        "x": 870,
+        "y": 140,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "F04",
+        "title": "Revisar el Lookahead",
+        "lines": [
+          "¿Qué trabajo se aproxima?",
+          "¿Qué condiciones faltan?"
+        ],
+        "x": 1285,
+        "y": 140,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "F05",
+        "title": "¿Está listo para ejecutar?",
+        "lines": [
+          "Comprobar datos, calendario, secuencia,",
+          "entregas previas y restricciones."
+        ],
+        "x": 1285,
+        "y": 390,
+        "w": 365,
+        "h": 130,
+        "color": "amber",
+        "kind": "box"
+      },
+      {
+        "id": "F06",
+        "title": "Gestionar restricciones",
+        "lines": [
+          "Problema + responsable + fecha.",
+          "Evidencia y revisión para liberar."
+        ],
+        "x": 870,
+        "y": 390,
+        "w": 365,
+        "h": 130,
+        "color": "amber",
+        "kind": "box"
+      },
+      {
+        "id": "F07",
+        "title": "Confirmar preparación",
+        "lines": [
+          "Revisión declarada por responsable.",
+          "Recursos, seguridad, calidad y frente."
+        ],
+        "x": 455,
+        "y": 390,
+        "w": 365,
+        "h": 130,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "F08",
+        "title": "Acordar y congelar la semana",
+        "lines": [
+          "Cantidad objetivo y criterio de término.",
+          "Guardar miembros y condiciones del corte."
+        ],
+        "x": 40,
+        "y": 390,
+        "w": 365,
+        "h": 130,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "F09",
+        "title": "Registrar lo observado",
+        "lines": [
+          "Cantidad diaria, fecha, evidencia, entrega.",
+          "Interrupciones: intervalo y causa."
+        ],
+        "x": 40,
+        "y": 700,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "F10",
+        "title": "Evaluar compromisos",
+        "lines": [
+          "Cumplido o no cumplido.",
+          "Si falla: causa y acción correctiva."
+        ],
+        "x": 455,
+        "y": 700,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "F11",
+        "title": "Aprender y volver a planificar",
+        "lines": [
+          "PPC / PRL / continuidad.",
+          "Revisar causas y próximas decisiones."
+        ],
+        "x": 870,
+        "y": 700,
+        "w": 365,
+        "h": 130,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "V01",
+        "title": "VISUALIZACIÓN DE APOYO · M08",
+        "lines": [
+          "Planos CAD: consultar documentos y partidas.  |  Flujo LBMS: consultar tiempo y ubicación.",
+          "Las vistas ayudan a revisar; no crean avance ejecutado ni liberan restricciones por sí solas."
+        ],
+        "x": 40,
+        "y": 910,
+        "w": 1620,
+        "h": 100,
+        "color": "purple",
+        "kind": "box"
+      },
+      {
+        "id": "R01",
+        "title": "Reglas que condicionan el proceso",
+        "lines": [
+          "• Una fecha estimada no libera una restricción: se exige evidencia, fecha real y revisión.",
+          "• La duración Q/R requiere unidades compatibles y metrado de la ubicación; un total agregado no define frentes.",
+          "• El compromiso exige preparación vigente. La semana se congela antes de iniciar; no se añaden miembros después.",
+          "• Los registros respetan el corte y el calendario. La falta de registros no demuestra avance físico igual a cero."
+        ],
+        "x": 40,
+        "y": 1030,
+        "w": 1620,
+        "h": 135,
+        "color": "amber",
+        "kind": "box"
+      }
+    ],
+    "edges": [
+      {
+        "a": "F01",
+        "b": "F02",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F02",
+        "b": "F03",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F03",
+        "b": "F04",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F04",
+        "b": "F05",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F07",
+        "b": "F08",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F08",
+        "b": "F09",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F09",
+        "b": "F10",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F10",
+        "b": "F11",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F05",
+        "b": "F06",
+        "label": "Faltan condiciones",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "F06",
+        "b": "F05",
+        "label": "Volver a revisar",
+        "via": [
+          [
+            1052,
+            555
+          ],
+          [
+            1467,
+            555
+          ]
+        ],
+        "dash": false
+      },
+      {
+        "a": "F05",
+        "b": "F07",
+        "label": "Condiciones completas",
+        "via": [
+          [
+            1260,
+            455
+          ],
+          [
+            1260,
+            315
+          ],
+          [
+            637,
+            315
+          ]
+        ],
+        "dash": false
+      },
+      {
+        "a": "F11",
+        "b": "F04",
+        "label": "Siguiente ciclo",
+        "via": [
+          [
+            1670,
+            765
+          ],
+          [
+            1670,
+            205
+          ]
+        ],
+        "dash": true
+      }
+    ]
+  },
+  {
+    "title": "03 · Datos y cálculos",
+    "nodes": [
+      {
+        "id": "T01",
+        "title": "Entradas",
+        "lines": [
+          "Cronograma XML / Excel / CSV.",
+          "Metrados Excel / CSV; catálogo APU CSV.",
+          "Expediente publicado: PDFs y vistas CAD.",
+          "MPP y DWG no se interpretan directamente en el navegador."
+        ],
+        "x": 40,
+        "y": 140,
+        "w": 460,
+        "h": 165,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "T02",
+        "title": "Interfaz y validación",
+        "lines": [
+          "app.js + importers.js",
+          "Formularios, importación, fecha de corte.",
+          "workspace-ui.js: resumen y fichas.",
+          "Selecciona el proyecto real o la prueba."
+        ],
+        "x": 620,
+        "y": 140,
+        "w": 460,
+        "h": 165,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "T03",
+        "title": "Modelo del proyecto",
+        "lines": [
+          "Actividades y cantidades por ubicación.",
+          "Restricciones y vínculos a actividades.",
+          "Planes, avances e interrupciones.",
+          "Componentes, fuentes, planos y marcas.",
+          "Correspondencias e historial."
+        ],
+        "x": 620,
+        "y": 390,
+        "w": 460,
+        "h": 205,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "T04",
+        "title": "Motor operativo · engine.js",
+        "lines": [
+          "Calendario y duración Q/R.",
+          "Precedencias, entregas y cuadrillas.",
+          "Preparación y pronóstico condicionado.",
+          "Compromisos, PPC, PRL y continuidad."
+        ],
+        "x": 40,
+        "y": 390,
+        "w": 460,
+        "h": 205,
+        "color": "blue",
+        "kind": "box"
+      },
+      {
+        "id": "T05",
+        "title": "Relación documental",
+        "lines": [
+          "relations.js + documents.js",
+          "Cruces de WBS, descripción y componente.",
+          "Referencias a metrado, APU y plano.",
+          "No reparte totales ni inventa ubicaciones.",
+          "Un enlace documental no habilita ejecución."
+        ],
+        "x": 1200,
+        "y": 140,
+        "w": 460,
+        "h": 190,
+        "color": "amber",
+        "kind": "box"
+      },
+      {
+        "id": "T06",
+        "title": "Salidas y visores",
+        "lines": [
+          "Resumen, Lookahead y restricciones.",
+          "Plan semanal y registro de avance.",
+          "Indicadores, historial y exportaciones.",
+          "plans-ui.js: visor CAD.",
+          "Flujo LBMS: gráfico de tiempo–ubicación."
+        ],
+        "x": 1200,
+        "y": 390,
+        "w": 460,
+        "h": 205,
+        "color": "purple",
+        "kind": "box"
+      },
+      {
+        "id": "T07",
+        "title": "Mis datos · almacenamiento local",
+        "lines": [
+          "Proyecto guardado en este navegador.",
+          "Versión anterior para recuperación.",
+          "Exportar / restaurar respaldo JSON.",
+          "Sin sincronización entre dispositivos."
+        ],
+        "x": 40,
+        "y": 740,
+        "w": 460,
+        "h": 175,
+        "color": "green",
+        "kind": "box"
+      },
+      {
+        "id": "T08",
+        "title": "Prueba · almacenamiento separado",
+        "lines": [
+          "Prueba vacía: inicia sin registros.",
+          "Predeterminados: 8 actividades, 4 restricciones",
+          "y un plan con 2 compromisos ficticios.",
+          "Ambas opciones usan un espacio de prueba.",
+          "Mis datos recupera el proyecto anterior."
+        ],
+        "x": 620,
+        "y": 740,
+        "w": 460,
+        "h": 195,
+        "color": "amber",
+        "kind": "box"
+      },
+      {
+        "id": "T09",
+        "title": "Alcance de la seguridad actual",
+        "lines": [
+          "Se verifica la estructura de los registros.",
+          "La prueba no escribe sobre el proyecto real.",
+          "No hay cuentas, roles autenticados ni servidor",
+          "de evidencias; el revisor es declarado.",
+          "Borrar datos del navegador puede perder registros."
+        ],
+        "x": 1200,
+        "y": 740,
+        "w": 460,
+        "h": 195,
+        "color": "gray",
+        "kind": "box"
+      },
+      {
+        "id": "T10",
+        "title": "Qué significa «conectado»",
+        "lines": [
+          "Conexión operativa: misma partida + ubicación → puede alimentar Q/R y preparación si cumple las demás reglas.",
+          "Conexión documental: correspondencia de fuentes → sirve para consultar y revisar, aunque la ejecución siga pendiente.",
+          "LBS y cuadrillas reales deben definirse y validarse; los documentos agregados no sustituyen esos datos."
+        ],
+        "x": 40,
+        "y": 1000,
+        "w": 1620,
+        "h": 140,
+        "color": "amber",
+        "kind": "box"
+      }
+    ],
+    "edges": [
+      {
+        "a": "T01",
+        "b": "T02",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "T02",
+        "b": "T03",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "T02",
+        "b": "T05",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "T05",
+        "b": "T06",
+        "label": "",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "T03",
+        "b": "T04",
+        "label": "calcular",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "T03",
+        "b": "T06",
+        "label": "mostrar",
+        "via": null,
+        "dash": false
+      },
+      {
+        "a": "T04",
+        "b": "T06",
+        "label": "resultados calculados",
+        "via": [
+          [
+            270,
+            620
+          ],
+          [
+            1430,
+            620
+          ]
+        ],
+        "dash": false
+      },
+      {
+        "a": "T03",
+        "b": "T07",
+        "label": "guardar / recuperar",
+        "via": [
+          [
+            850,
+            655
+          ],
+          [
+            270,
+            655
+          ]
+        ],
+        "dash": false
+      },
+      {
+        "a": "T03",
+        "b": "T08",
+        "label": "solo en modo prueba",
+        "via": null,
+        "dash": false
+      }
+    ]
+  }
+]
