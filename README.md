@@ -61,6 +61,15 @@ Después de importar los metrados, usa **Cargar catálogo APU CSV**. Solo propon
 
 En `ejemplos/` hay un Excel con hojas **Cronograma** y **Metrados**, dos CSV y un XML de prueba. Las plantillas CSV también se descargan desde la aplicación. Al importar sobre la demostración se inicia un proyecto propio, sin mezclar ejemplos; el proyecto anterior queda recuperable en **Restaurar respaldo → Recuperar proyecto anterior**.
 
+
+## Versión 3.8: uso simple, restricciones y marco de la tesis
+
+- **Inicio simple.** La portada pregunta «¿Qué necesitas hacer hoy?» con cuatro accesos (reportar un problema, trabajo listo, plan de la semana y registrar avance) y tres señales con color y palabra: atrasadas, se necesitan esta semana y listas para empezar. El detalle técnico queda plegado.
+- **Restricciones.** Filtros por estado (todas, atrasadas, esta semana, liberadas), tarjetas con la urgencia en palabras y una lista de problemas frecuentes (`conocimiento.js`) derivada de la matriz IPERC de la tesis. El buscador de actividades del formulario ignora tildes.
+- **Marco de la tesis** (`#tesis`). Resumen de riesgos, restricciones realistas, conclusiones por objetivo y recomendaciones. Está sujeto a validación.
+- **Apariencia.** Cinco temas (verde, azul, violeta, gris y alto contraste para el sol) y letra grande, guardados en `pitocuna.appearance.v1`. Los colores usan la sintaxis relativa de CSS con el color original como respaldo.
+- El selector de datos de prueba aparece plegado cuando se usan «Mis datos».
+
 ## Datos y trabajo sin conexión
 
 El proyecto se guarda en `localStorage` de ese navegador. Tras la primera carga HTTP/HTTPS, el service worker permite reabrir la aplicación y consultar/calcular sin conexión, incluyendo el lector Excel empaquetado localmente. Exporta el respaldo JSON para traslado o recuperación. Se puede restaurar desde un archivo validado y exportar un reporte CSV.
@@ -106,4 +115,4 @@ El visor permite acercar, desplazar y marcar una partida en un punto del plano; 
 
 `documents.js` valida relaciones y marcas, y `plans-ui.js` contiene la vista CAD. `project/` incluye el conjunto autorizado y sus fuentes. `python3 tests/plans_browser.py` verifica las vistas, los originales, las marcas y la navegación móvil con un servidor activo.
 
-La entrada y los recursos de interfaz usan la versión 3.7.0 para renovar las copias del navegador. El selector también está presente en el HTML inicial antes de que termine de cargar JavaScript.
+La entrada y los recursos de interfaz usan la versión 3.8.0 para renovar las copias del navegador. El selector también está presente en el HTML inicial antes de que termine de cargar JavaScript.

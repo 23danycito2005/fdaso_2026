@@ -16,7 +16,7 @@ with sync_playwright() as p:
     page.on('pageerror', lambda error: errors.append(str(error)))
     page.on('dialog', lambda dialog: dialog.accept())
     page.goto(BASE)
-    expect(page.locator('h1')).to_have_text('Del cronograma al trabajo preparado')
+    expect(page.locator('h1')).to_have_text('¿Qué necesitas hacer hoy?')
 
     def nav(view,title):
         page.locator(f'nav a[href="#{view}"]').click()

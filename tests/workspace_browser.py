@@ -11,7 +11,7 @@ with sync_playwright() as p:
     page=context.new_page(); errors=[]
     page.on('pageerror',lambda e: errors.append(str(e)))
     page.goto(BASE)
-    expect(page.locator('h1')).to_have_text('Del cronograma al trabajo preparado')
+    expect(page.locator('h1')).to_have_text('¿Qué necesitas hacer hoy?')
     expect(page.locator('.stat').first).to_contain_text('443 / 716')
     page.screenshot(path=str(OUT/'proyecto-conectado.png'),full_page=True)
     page.locator('nav [data-view="actividades"]').click()
@@ -40,7 +40,7 @@ with sync_playwright() as p:
     last=page.locator('.restriction-link-row').last
     options=last.locator('option').evaluate_all('(els)=>els.map(e=>e.value).filter(Boolean)')
     last.locator('select').select_option(next(x for x in options if x!=activity_id))
-    last.locator('input').fill('2026-05-17')
+    last.locator('[data-link-date]').fill('2026-05-17')
     page.locator('#modal [type="submit"]').click()
     expect(page.locator('#modal')).not_to_be_visible()
     page.locator('nav [data-view="restricciones"]').click()

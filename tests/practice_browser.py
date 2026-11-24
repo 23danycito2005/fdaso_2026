@@ -9,6 +9,8 @@ with sync_playwright() as p:
     page=b.new_page(viewport={'width':1440,'height':1000});errors=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.on('dialog',lambda d:d.accept())
+    # El selector de datos aparece plegado con datos propios; la prueba lo mantiene abierto.
+    page.add_init_script("new MutationObserver(()=>document.querySelectorAll('.scenario-fold').forEach(d=>{d.open=true;})).observe(document,{subtree:true,childList:true})")
     page.goto(BASE)
     expect(page.locator('h1')).to_be_visible()
     # A user edit must survive entry, reload, reset and exit of the practice session.
